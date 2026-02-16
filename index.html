@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skills Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Comfortaa', sans-serif;
+            background-image: url('https://i.pinimg.com/736x/e7/fe/2b/e7fe2be09fb12d2d379ef74d031aa595.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+        header {
+            background-color: white;
+            color: black;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            font-size: 50px;
+            font-weight: bold;
+            color: #FF73B7;
+            text-shadow: 0 0 10px #FF73B7;
+            margin: 0;
+        }
+        .form-container {
+            margin: 50px auto;
+            width: 50%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+        }
+        label { display:block; margin:10px 0 5px; font-weight:bold; }
+        input { padding:8px; width:80%; margin-bottom:15px; }
+        button {
+            padding: 12px 25px;
+            background: #FF73B7;
+            border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.05);
+            background: #e85fa3;
+        }
+        #result { margin-top:20px; font-size:22px; font-weight:bold; }
+        .ok { color: #00B894; }
+        .bad { color: #D63031; }
+        footer {
+            background-color: white;
+            color: black;
+            padding: 15px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header><h1>Create Account</h1></header>
+
+    <div class="form-container">
+        <form id="accountForm">
+            <label>Username:</label>
+            <input type="text" id="username" required>
+            <label>Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <footer><p>&copy; 2026 OBMC Account Form</p></footer>
+
+    <script>
+        document.getElementById('accountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const resultEl = document.getElementById('result');
+
+            // Username validation
+            if (username === "") {
+                resultEl.className = "bad";
+                resultEl.textContent = "❌ Username cannot be empty.";
+            } else if (!/[0-9]/.test(username)) {
+                resultEl.className = "bad";
+                resultEl.textContent = "❌ Username must contain at least one number.";
+            } else if (username.length < 7) {
+                const needed = 7 - username.length;
+                resultEl.className = "bad";
+                resultEl.textContent = `❌ Your username is too short. Add ${needed} more character(s) to proceed.`;
+            } else {
+                resultEl.className = "ok";
+                resultEl.textContent = "✅ Username accepted.";
+            }
+
+            // Password validation
+            if (password.length < 10) {
+                const needed = 10 - password.length;
+                resultEl.className = "bad";
+                resultEl.textContent = `❌ Your password is too short. Add ${needed} more character(s) to proceed.`;
+            } else if (password.length > 20) {
+                resultEl.className = "bad";
+                resultEl.textContent = "❌ Your password is too long. Max 20 characters.";
+            } else {
+                if (/[0-9]/.test(password) && /[a-zA-Z]/.test(password)) {
+                    resultEl.className = "ok";
+                    resultEl.textContent = `🎉 Account created successfully for ${username}!`;
+                } else if (/^[0-9]+$/.test(password)) {
+                    resultEl.className = "bad";
+                    resultEl.textContent = "❌ Password must contain letters.";
+                } else if (/^[a-zA-Z]+$/.test(password)) {
+                    resultEl.className = "bad";
+                    resultEl.textContent = "❌ Password must contain numbers.";
+                } else {
+                    resultEl.className = "bad";
+                    resultEl.textContent = "❌ Password must contain both letters and numbers.";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
